@@ -105,7 +105,7 @@ res.json({
 })
 })
 
-app.use('/api/v1/on-covid-19', Estimator);
+app.use('/api/v1/', Estimator);
   
 
 

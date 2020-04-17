@@ -14,9 +14,9 @@ const xml = require ('xml2js')
 router.post('/',Request.logRequest, async (req, res) => {
 
     
-     const output1 = (Estimator.covid19ImpactEstimator(req.body))
+   //  const output1 = (Estimator.covid19ImpactEstimator(req.body))
   
-    return res.status(200).send(output1);
+    return res.status(200).send(req.body);
 
 });
 
