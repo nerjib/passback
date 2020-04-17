@@ -16,7 +16,7 @@ router.post('/',Request.logRequest, async (req, res) => {
     
    //  const output1 = (Estimator.covid19ImpactEstimator(req.body))
   
-    return res.status(200).send('req.body');
+    return res.status(200).send(req.body);
 
 });
 
