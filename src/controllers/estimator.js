@@ -57,5 +57,16 @@ router.get('/logs', Request.logRequest, async (req, res) => {
    
 })
     
+router.post('/logs', Request.logRequest, async (req, res) => {
+ 
+    const file = path.join(__dirname, '../middleware/logs.txt')
+   const logs =  fs.readFileSync(file,'utf8')
+   res.format({'text/plain': function(){
+    res.status(200).send(req.body)
+ }})
+ //  res.status(200).send(logs)
+
+   
+})
 
 module.exports =  router;
