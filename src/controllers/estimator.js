@@ -40,7 +40,7 @@ router.post('/',Request.logRequest, async (req, res) => {
     const inputData = `INSERT INTO
     datatable(vehicle_no,vehicle_type,driver_no,no_kd_passenger,no_male,no_female,temp,time,date,gps,uid)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11) RETURNING *`;
-  console.log(req.body)
+  //console.log(req.body)
   const values = [
   req.body.vehicleNo,
   req.body.vehicleType,
@@ -94,6 +94,23 @@ router.get('/users/:id',Request.logRequest, async (req, res) => {
     try {
       // const { rows } = qr.query(getAllQ);
       const { rows } = await db.query(getAllQ, [req.params.uname]);
+      return res.status(201).send(rows);
+    } catch (error) {
+      if (error.routine === '_bt_check_unique') {
+        return res.status(400).send({ message: 'User with that EMAIL already exist' });
+      }
+      return res.status(400).send(`${error} jsh`);
+    }
+    //  const output1 = (Estimator.covid19ImpactEstimator(req.body))
+ 
+ });
+
+ router.get('/search/:id',Request.logRequest, async (req, res) => {
+
+    const getAllQ = 'SELECT * FROM datatable WHERE vehicle_no= $1';
+    try {
+      // const { rows } = qr.query(getAllQ);
+      const { rows } = await db.query(getAllQ, [req.params.id]);
       return res.status(201).send(rows);
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
