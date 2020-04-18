@@ -38,8 +38,8 @@ router.post('/',Request.logRequest, async (req, res) => {
     */
 
     const inputData = `INSERT INTO
-    datatable(vehicle_no,vehicle_type,driver_no,no_kd_passenger,no_male,no_female,temp,time,date,gps,uid)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11) RETURNING *`;
+    datatable(vehicle_no,vehicle_type,driver_no,no_kd_passenger,no_male,no_female,temp,time,date,gps,uid,euid)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11,$12) RETURNING *`;
   //console.log(req.body)
   const values = [
   req.body.vehicleNo,
@@ -52,7 +52,8 @@ router.post('/',Request.logRequest, async (req, res) => {
   req.body.time,
   moment(new Date()),
   req.body.gps,
-  req.body.uid
+  req.body.uid,
+  0
   ];
   try {
   const { rows } = await db.query(inputData, values);
@@ -110,7 +111,7 @@ router.get('/users/:id',Request.logRequest, async (req, res) => {
     const getAllQ = 'SELECT * FROM datatable WHERE vehicle_no= $1 and euid=$2  order by id desc';
     try {
       // const { rows } = qr.query(getAllQ);
-      const { rows } = await db.query(getAllQ, [(req.params.id).toUpperCase(), '']);
+      const { rows } = await db.query(getAllQ, [(req.params.id).toUpperCase(), 0]);
       return res.status(201).send(rows);
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
