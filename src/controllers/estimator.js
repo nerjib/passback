@@ -100,7 +100,7 @@ router.post('/exit',Request.logRequest, async (req, res) => {
 
 router.put('/exit/:vn', async (req, res) => {
     const updateReport = `UPDATE
-    datatable SET euid=$1, etime=$2 WHERE vehicle_no=$3 and euid=$5
+    datatable SET euid=$1, etime=$2 WHERE vehicle_no=$3 and euid=$4
      RETURNING *`;
   console.log(req.body)
   const values = [
