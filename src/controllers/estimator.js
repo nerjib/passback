@@ -95,13 +95,32 @@ router.post('/exit',Request.logRequest, async (req, res) => {
   } catch (error) {
   return res.status(400).send(error);
   }
-
- 
-//  const output1 = (Estimator.covid19ImpactEstimator(req.body))
-
-//    return res.status(200).send(req.body.vehicleNo);
-
 });
+
+
+router.put('/exit/:vn', async (req, res) => {
+    const updateReport = `UPDATE
+    datatable SET euid=$1, etime=$2 WHERE vehicle_no=$3 and euid=$5
+     RETURNING *`;
+  console.log(req.body)
+  const values = [
+  req.body.uid,
+  req.body.time,
+  req.body.vehicleNo,
+  req.params.vn
+  ];
+  try {
+  const { rows } = await db.query(updateReport, values);
+  // console.log(rows);
+  
+  return res.status(201).send(rows);
+  } catch (error) {
+  return res.status(400).send(error);
+  }
+  
+  });
+
+
 
 
 router.get('/users/:id',Request.logRequest, async (req, res) => {
