@@ -36,9 +36,12 @@ app.use((req, res, next) => {
     }
     next();
   });
+  
+  /*
   app.use(responseTime({
       digits: 1
   }))
+  
 app.use(responseTime((req,res,time)=>{
 //    console.log(`${req.method}  ${req.url}  ${req.statusCode}  ${time}`);
   
@@ -97,8 +100,9 @@ if(`${req.method}`=='POST'){
         const logs = JSON.parse(jsonString)
         console.log((logs.log))
     })
-    */
+    
 }))  
+*/
 app.get('/', function(req,res){
 res.json({
     m:'sdg'
