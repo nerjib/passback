@@ -106,8 +106,8 @@ router.put('/exit/:vn', async (req, res) => {
   const values = [
   req.body.uid,
   req.body.time,
-  req.body.vehicleNo,
-  req.params.vn
+  req.params.vn.toUpperCase(),
+  0
   ];
   try {
   const { rows } = await db.query(updateReport, values);
