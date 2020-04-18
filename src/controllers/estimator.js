@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const fs = require('fs')
 const path = require('path')
+const moment = require ('moment')
 const Request = require('../middleware/requestlog')
 const db = require('../db/index');
 
@@ -13,11 +14,60 @@ const  Estimator = require('./estimatorCal')
 const xml = require ('xml2js')
 
 router.post('/',Request.logRequest, async (req, res) => {
+ /*   uid integer not null,
+    vehicle_no varchar(200),
+    vehicle_type varchar(50),
+    driver_no varchar(50),
+    no_kd_passenger integer,
+    no_male integer,
+    no_female integer,
+    temp integer,
+    time varchar (50),
+    date timestamp,
+    gps varchar(100)
+      vehicleNo: this.state.receivedata[e].vehicleNo,
+            driverNo: this.state.receivedata[e].driverNo,
+            vehicleType: this.state.receivedata[e].vehicleType,
+            kdPassenger: this.state.receivedata[e].kdPassenger,
+            malePassenger: this.state.receivedata[e].malePassenger,
+            femalePassenger: this.state.receivedata[e].femalePassenger,
+            highTemp: this.state.receivedata[e].highTemp,
+            time: this.state.receivedata[e].time,
+            gps: this.state.receivedata[e].gps,
+            uid: this.state.userid
+    */
+
+    const inputData = `INSERT INTO
+    datatable(vehicle_no,vehicle_type,driver_no,no_kd_passenger,no_male,no_female,temp,time,date,gps,uid)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11) RETURNING *`;
+  console.log(req.body)
+  const values = [
+  req.body.vehicleNo,
+  req.body.vehicleType,
+  req.body.driverNo,
+  req.body.kdPassenger,
+  req.body.malePassenger,
+  req.body.femalePassenger,
+  req.body.highTemp,
+  req.body.time,
+  moment(new Date()),
+  req.body.gps,
+  req.body.uid
+  ];
+  try {
+  const { rows } = await db.query(inputData, values);
+  // console.log(rows);
+  
+  return res.status(201).send(rows);
+  } catch (error) {
+  return res.status(400).send(error);
+  }
+  
 
     
    //  const output1 = (Estimator.covid19ImpactEstimator(req.body))
   
-    return res.status(200).send(req.body.vehicleNo);
+//    return res.status(200).send(req.body.vehicleNo);
 
 });
 
