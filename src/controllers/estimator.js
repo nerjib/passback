@@ -110,7 +110,7 @@ router.get('/users/:id',Request.logRequest, async (req, res) => {
     const getAllQ = 'SELECT * FROM datatable WHERE vehicle_no= $1';
     try {
       // const { rows } = qr.query(getAllQ);
-      const { rows } = await db.query(getAllQ, [req.params.id]);
+      const { rows } = await db.query(getAllQ, [(req.params.id).toUpperCase()]);
       return res.status(201).send(rows);
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
