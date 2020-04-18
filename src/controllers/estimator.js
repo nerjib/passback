@@ -107,7 +107,7 @@ router.get('/users/:id',Request.logRequest, async (req, res) => {
 
  router.get('/search/:id',Request.logRequest, async (req, res) => {
 
-    const getAllQ = 'SELECT * FROM datatable WHERE vehicle_no= $1';
+    const getAllQ = 'SELECT * FROM datatable WHERE vehicle_no= $1 order by id desc';
     try {
       // const { rows } = qr.query(getAllQ);
       const { rows } = await db.query(getAllQ, [(req.params.id).toUpperCase()]);
