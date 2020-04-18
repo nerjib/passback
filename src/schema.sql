@@ -10,7 +10,8 @@ create table datatable(
     temp integer,
     time varchar (50),
     date timestamp,
-    gps varchar(100)
+    gps varchar(100),
+    euid integer 
 );
 
 create table users(

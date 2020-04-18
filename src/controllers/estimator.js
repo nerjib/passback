@@ -107,10 +107,10 @@ router.get('/users/:id',Request.logRequest, async (req, res) => {
 
  router.get('/search/:id',Request.logRequest, async (req, res) => {
 
-    const getAllQ = 'SELECT * FROM datatable WHERE vehicle_no= $1 order by id desc';
+    const getAllQ = 'SELECT * FROM datatable WHERE vehicle_no= $1 and euid=$2  order by id desc';
     try {
       // const { rows } = qr.query(getAllQ);
-      const { rows } = await db.query(getAllQ, [(req.params.id).toUpperCase()]);
+      const { rows } = await db.query(getAllQ, [(req.params.id).toUpperCase(), null]);
       return res.status(201).send(rows);
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
