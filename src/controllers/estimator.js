@@ -64,6 +64,7 @@ router.post('/',Request.logRequest, async (req, res) => {
   return res.status(400).send(error);
   }
   
+  
 
     
    //  const output1 = (Estimator.covid19ImpactEstimator(req.body))
@@ -71,6 +72,37 @@ router.post('/',Request.logRequest, async (req, res) => {
 //    return res.status(200).send(req.body.vehicleNo);
 
 });
+
+router.post('/exit',Request.logRequest, async (req, res) => {
+    
+    const inputData = `INSERT INTO
+    outgoingtable(vehicle_no,vehicle_type,driver_no,time,date,uid)
+    VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+  //console.log(req.body)
+  const values = [
+  req.body.vehicleNo,
+  req.body.vehicleType,
+  req.body.driverNo,
+  req.body.time,
+  moment(new Date()),
+  req.body.uid
+  ];
+  try {
+  const { rows } = await db.query(inputData, values);
+  // console.log(rows);
+  
+  return res.status(201).send(rows);
+  } catch (error) {
+  return res.status(400).send(error);
+  }
+
+ 
+//  const output1 = (Estimator.covid19ImpactEstimator(req.body))
+
+//    return res.status(200).send(req.body.vehicleNo);
+
+});
+
 
 router.get('/users/:id',Request.logRequest, async (req, res) => {
 

@@ -13,6 +13,15 @@ create table datatable(
     gps varchar(100),
     euid integer 
 );
+create table outgoingtable(
+    id serial,
+    uid integer not null,
+    vehicle_no varchar(200),
+    vehicle_type varchar(50),
+    driver_no varchar(50),
+    time varchar (50),
+    date timestamp    
+);
 
 create table users(
     id serial,
