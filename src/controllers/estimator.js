@@ -176,7 +176,7 @@ router.get('/users/:id',Request.logRequest, async (req, res) => {
 
  router.get('/',Request.logRequest, async (req, res) => {
 
-    const getAllQ = 'SELECT datatable.vehicle_no, datatable.etime, datatable.euid, datatable.vehicle_type, datatable.driver_no, datatable.no_kd_passenger, datatable.no_male, datatable.no_female, datatable.temp, datatable.time, datatable.date,datatable.gps,users.border_name FROM datatable left join users on datatable.uid=users.id';
+    const getAllQ = 'SELECT datatable.vehicle_no, datatable.etime, datatable.euid, datatable.vehicle_type, datatable.driver_no, datatable.no_kd_passenger, datatable.no_male, datatable.no_female, datatable.temp, datatable.time, datatable.date,datatable.gps,users.border_name FROM datatable left join users on datatable.uid=users.id order by datatable.date desc';
     try {
       // const { rows } = qr.query(getAllQ);
       const { rows } = await db.query(getAllQ);
