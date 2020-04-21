@@ -38,8 +38,8 @@ router.post('/',Request.logRequest, async (req, res) => {
     */
 
     const inputData = `INSERT INTO
-    datatable(vehicle_no,vehicle_type,driver_no,no_kd_passenger,no_male,no_female,temp,time,date,gps,uid,euid)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11,$12) RETURNING *`;
+    datatable(vehicle_no,vehicle_type,driver_no,no_kd_passenger,no_male,no_female,temp,time,date,gps,uid,euid,entry_gate)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11,$12,$13) RETURNING *`;
   //console.log(req.body)
   const values = [
   req.body.vehicleNo,
@@ -53,7 +53,8 @@ router.post('/',Request.logRequest, async (req, res) => {
   moment(new Date()),
   req.body.gps,
   req.body.uid,
-  0
+  0,
+  req.body.entryGate
   ];
   try {
   const { rows } = await db.query(inputData, values);
@@ -76,8 +77,8 @@ router.post('/',Request.logRequest, async (req, res) => {
 router.post('/exit',Request.logRequest, async (req, res) => {
     
     const inputData = `INSERT INTO
-    outgoingtable(vehicle_no,vehicle_type,driver_no,time,date,uid)
-    VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+    outgoingtable(vehicle_no,vehicle_type,driver_no,time,date,uid,exit_gate)
+    VALUES ($1, $2, $3, $4, $5, $6,$7) RETURNING *`;
   //console.log(req.body)
   const values = [
   req.body.vehicleNo,
@@ -85,7 +86,8 @@ router.post('/exit',Request.logRequest, async (req, res) => {
   req.body.driverNo,
   req.body.time,
   moment(new Date()),
-  req.body.uid
+  req.body.uid,
+  req.body.exitGate
   ];
   try {
   const { rows } = await db.query(inputData, values);
@@ -100,12 +102,13 @@ router.post('/exit',Request.logRequest, async (req, res) => {
 
 router.put('/exit/:vn', async (req, res) => {
     const updateReport = `UPDATE
-    datatable SET euid=$1, etime=$2 WHERE vehicle_no=$3 and euid=$4
+    datatable SET euid=$1, etime=$2, exit_gate=$3 WHERE vehicle_no=$4 and euid=$5
      RETURNING *`;
   console.log(req.body)
   const values = [
   req.body.uid,
   req.body.time,
+  req.body.exitGate,
   req.params.vn.toUpperCase(),
   0
   ];
