@@ -38,8 +38,8 @@ router.post('/',Request.logRequest, async (req, res) => {
     */
 
     const inputData = `INSERT INTO
-    datatable(vehicle_no,vehicle_type,driver_no,no_kd_passenger,no_male,no_female,temp,time,date,gps,uid,euid,entry_gate)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11,$12,$13) RETURNING *`;
+    datatable(vehicle_no,vehicle_type,driver_no,no_kd_passenger,no_male,no_female,temp,time,date,gps,uid,euid,entry_gate,vehicle_from,vehicle_to)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11,$12,$13,$14,$15) RETURNING *`;
   //console.log(req.body)
   const values = [
   req.body.vehicleNo,
@@ -54,7 +54,9 @@ router.post('/',Request.logRequest, async (req, res) => {
   req.body.gps,
   req.body.uid,
   0,
-  req.body.entryGate
+  req.body.entryGate,
+  req.body.vehicleFrom,
+  req.body.vehicleTo
   ];
   try {
   const { rows } = await db.query(inputData, values);
@@ -179,7 +181,7 @@ router.get('/users/:id',Request.logRequest, async (req, res) => {
 
  router.get('/',Request.logRequest, async (req, res) => {
 
-    const getAllQ = 'SELECT datatable.vehicle_no, datatable.etime, datatable.euid, datatable.vehicle_type, datatable.driver_no, datatable.no_kd_passenger, datatable.no_male, datatable.no_female, datatable.temp, datatable.time, datatable.date,datatable.gps,users.border_name FROM datatable left join users on datatable.uid=users.id order by datatable.date desc';
+    const getAllQ = 'SELECT datatable.vehicle_no, datatable.entry_gate,datatable.exit_table,datatabe.vehicle_from,datatable.vehicle_to, datatable.etime, datatable.euid, datatable.vehicle_type, datatable.driver_no, datatable.no_kd_passenger, datatable.no_male, datatable.no_female, datatable.temp, datatable.time, datatable.date,datatable.gps,users.border_name FROM datatable left join users on datatable.uid=users.id order by datatable.date desc';
     try {
       // const { rows } = qr.query(getAllQ);
       const { rows } = await db.query(getAllQ);
