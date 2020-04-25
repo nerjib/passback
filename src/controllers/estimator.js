@@ -67,6 +67,7 @@ router.post('/',Request.logRequest, async (req, res) => {
   return res.status(400).send(error);
   }
   
+
   
 
     
@@ -76,6 +77,89 @@ router.post('/',Request.logRequest, async (req, res) => {
 
 });
 
+
+router.post('/passengers',Request.logRequest, async (req, res) => {
+  /*   uid integer not null,
+     vehicle_no varchar(200),
+     vehicle_type varchar(50),
+     driver_no varchar(50),
+     no_kd_passenger integer,
+     no_male integer,
+     no_female integer,
+     temp integer,
+     time varchar (50),
+     date timestamp,
+     gps varchar(100)
+       vehicleNo: this.state.receivedata[e].vehicleNo,
+             driverNo: this.state.receivedata[e].driverNo,
+             vehicleType: this.state.receivedata[e].vehicleType,
+             kdPassenger: this.state.receivedata[e].kdPassenger,
+             malePassenger: this.state.receivedata[e].malePassenger,
+             femalePassenger: this.state.receivedata[e].femalePassenger,
+             highTemp: this.state.receivedata[e].highTemp,
+             time: this.state.receivedata[e].time,
+             gps: this.state.receivedata[e].gps,
+             uid: this.state.userid
+     */
+ 
+     const inputData = `INSERT INTO
+     passengers(  fulltime,kdaddress,PN,FN,FGN,MN,age,passport, nationality, residence, CV,ID, TC, LV, DS,kdtelephone, HC, HCno, EKD, EKDno, DA, airline,userid, bordername, flumed, antiviral, antibiotics, Paracetamol, bflu, bunwell, bbreathing, bcough, bfever, ill, flu, unwell, breathing, cough, fever, doctor, health,  gender, time )
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43) RETURNING *`;
+   //console.log(req.body)
+   const values = [
+    req.body.fulltime,
+    req.body.kdaddress,
+    req.body.PN,
+    req.body.FN,
+    req.body.FGN,
+    req.body.MN,
+    req.body.age,
+    req.body.passport,
+    req.body.nationality,
+    req.body.residence, 
+    req.body.CV,
+    req.body.ID,
+    req.body.TC,
+    req.body.LV, 
+    req.body.DS,
+    req.body.kdtelephone, 
+    req.body.HC, 
+    req.body.HCno, 
+    req.body.EKD, 
+    req.body.EKDno, 
+    req.body.DA, 
+    req.body.airline,
+    req.body.userid, 
+    req.body.bordername, 
+    req.body.flumed, 
+    req.body.antiviral, 
+    req.body.antibiotics, 
+    req.body.Paracetamol, 
+    req.body.bflu, 
+    req.body.bunwell, 
+    req.body.bbreathing, 
+    req.body.bcough, 
+    req.body.bfever, 
+    req.body.ill, 
+    req.body.flu, 
+    req.body.unwell, 
+    req.body.breathing, 
+    req.body.cough, 
+    req.body.fever, 
+    req.body.doctor, 
+    req.body.health,  
+    req.body.gender,
+   moment(new Date())
+   ];
+   try {
+   const { rows } = await db.query(inputData, values);
+   // console.log(rows);
+   
+   return res.status(201).send(rows);
+   } catch (error) {
+   return res.status(400).send(error);
+   }
+  }) 
 router.post('/exit',Request.logRequest, async (req, res) => {
     
     const inputData = `INSERT INTO
