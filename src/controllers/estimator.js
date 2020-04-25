@@ -109,7 +109,7 @@ router.post('/passengers',Request.logRequest, async (req, res) => {
    const values = [
     req.body.fulltime,
     req.body.kdaddress,
-    req.body.PN,
+    req.body.PN.toUpperCase(),
     req.body.FN,
     req.body.FGN,
     req.body.MN,
