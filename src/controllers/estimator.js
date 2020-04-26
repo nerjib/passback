@@ -226,6 +226,22 @@ router.put('/exit/:vn', async (req, res) => {
     //  const output1 = (Estimator.covid19ImpactEstimator(req.body))
  
  });
+ router.get('/passengers',Request.logRequest, async (req, res) => {
+
+  const getAllQ = 'SELECT * FROM passengers order by pid desc';
+  try {
+    // const { rows } = qr.query(getAllQ);
+    const { rows } = await db.query(getAllQ);
+    return res.status(201).send(rows);
+  } catch (error) {
+    if (error.routine === '_bt_check_unique') {
+      return res.status(400).send({ message: 'User with that EMAIL already exist' });
+    }
+    return res.status(400).send(`${error} jsh`);
+  }
+  //  const output1 = (Estimator.covid19ImpactEstimator(req.body))
+
+});
 
 
 router.get('/users/:id',Request.logRequest, async (req, res) => {
