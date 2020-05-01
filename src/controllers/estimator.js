@@ -212,7 +212,7 @@ router.put('/exit/:vn', async (req, res) => {
 
   router.get('/allusers',Request.logRequest, async (req, res) => {
 
-    const getAllQ = 'SELECT * FROM users order by id asc';
+    const getAllQ = 'SELECT * FROM users order by vehicle_no asc';
     try {
       // const { rows } = qr.query(getAllQ);
       const { rows } = await db.query(getAllQ);
@@ -276,6 +276,25 @@ router.get('/users/:id',Request.logRequest, async (req, res) => {
     //  const output1 = (Estimator.covid19ImpactEstimator(req.body))
  
  });
+
+ router.delete('/delete/:id',Request.logRequest, async (req, res) => {
+
+  const getAllQ = 'DELETE  FROM datatable WHERE id= $1';
+  try {
+    // const { rows } = qr.query(getAllQ);
+    const { rows } = await db.query(getAllQ, [req.params.id]);
+    return res.status(201).send(rows);
+  } catch (error) {
+    if (error.routine === '_bt_check_unique') {
+      return res.status(400).send({ message: 'User with that EMAIL already exist' });
+    }
+    return res.status(400).send(`${error} jsh`);
+  }
+  //  const output1 = (Estimator.covid19ImpactEstimator(req.body))
+
+});
+
+
 
  router.get('/admin/:uname',Request.logRequest, async (req, res) => {
 
