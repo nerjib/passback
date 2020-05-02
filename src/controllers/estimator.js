@@ -295,6 +295,23 @@ router.get('/users/:id',Request.logRequest, async (req, res) => {
 });
 
 
+router.delete('/refresh',Request.logRequest, async (req, res) => {
+
+  const getAllQ = 'DELETE  FROM datatable WHERE id not in (select max(id) from datatable group by vehicle_no, driver_no, time)';
+  try {
+    // const { rows } = qr.query(getAllQ);
+    const { rows } = await db.query(getAllQ);
+    return res.status(201).send(rows);
+  } catch (error) {
+    if (error.routine === '_bt_check_unique') {
+      return res.status(400).send({ message: 'User with that EMAIL already exist' });
+    }
+    return res.status(400).send(`${error} jsh`);
+  }
+  //  const output1 = (Estimator.covid19ImpactEstimator(req.body))
+
+});
+
 
  router.get('/admin/:uname',Request.logRequest, async (req, res) => {
 
@@ -329,6 +346,8 @@ router.get('/users/:id',Request.logRequest, async (req, res) => {
     //  const output1 = (Estimator.covid19ImpactEstimator(req.body))
  
  });
+
+
 
  router.get('/',Request.logRequest, async (req, res) => {
 
